@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -115,8 +116,8 @@ public class EventBusTest {
                 messageReceived.set(true);
 
                 await("countDown")
-                        .pollInterval(1, TimeUnit.MILLISECONDS)
-                        .atMost(200, TimeUnit.MILLISECONDS)
+                        .pollInterval(Duration.ofMillis(1))
+                        .atMost(Duration.ofMillis(400))
                         .untilAtomic(countDown, equalTo(0));
 
                 underTest.unsubscribe(this);
@@ -133,8 +134,8 @@ public class EventBusTest {
         new Thread(() -> {
             try {
                 await("messageReceived")
-                        .pollInterval(1, TimeUnit.MILLISECONDS)
-                        .atMost(200, TimeUnit.MILLISECONDS)
+                        .pollInterval(Duration.ofMillis(1))
+                        .atMost(Duration.ofMillis(400))
                         .untilTrue(messageReceived);
 
                 for (; ; ) {
@@ -156,11 +157,11 @@ public class EventBusTest {
         }).start();
 
         await("isEmpty")
-                .atMost(200, TimeUnit.MILLISECONDS)
+                .atMost(Duration.ofMillis(400))
                 .untilTrue(isEmpty);
 
         await("onUnsubscribe")
-                .atMost(200, TimeUnit.MILLISECONDS)
+                .atMost(Duration.ofMillis(400))
                 .untilTrue(onUnsubscribe);
 
         errors.forEach(Runnable::run);
