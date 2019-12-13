@@ -20,7 +20,6 @@ Please include a maven project with the source code to build the jar and a shell
 
 Everything not specified is to be decided by you; everything specified is a hard requirement.
 
-You should send your source code as an archive attached to the e-mail; inline links for downloading will be ignored.
 
 ### Getting Start
 
